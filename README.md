@@ -15,4 +15,10 @@ deviation calculations by finding columns names that contain "mean" or "std". It
 concious choice to only subset the lowercase "mean" and "std" as these are direct calculations
 on raw data, the "Mean" values appear to be calculations using these calculations.
 
-Next the program cleans the column names.
+Next the program cleans the column names, removing periods, spaces, parentheses and replacing 
+dashes, commas with underscores.
+
+This tidy dataset is then written to the file system.
+
+Lastly the program finds the mean value of each feature on a per subject and per activity basis, and 
+this summary dataset is written to the file system as well.
