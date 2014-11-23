@@ -1,11 +1,14 @@
 getdataCourseProject
 ====================
 
-Repository for Course Project for Coursera Getting and Cleaning Data class
+# Repository for Course Project for Coursera Getting and Cleaning Data class
 
 The program run_Analysis.R reads in activity data from Samsung Galaxy S Smartphones.
 This data was collected from several subjects that performed multiple activities
-in controlled experiments.
+in controlled experiments. This program assumes that you have downloaded the data from:
+http://archive.ics.uci.edu/ml/machine-learning-databases/00240/UCI%20HAR%20Dataset.zip
+and unzipped it into your working directory (or changed your working directory to where it
+was unzipped).
 
 The downloaded data has been previously split into a training set and a cross-validation
 or test set. The first thing this program does is combine the two sets into one larger set.
