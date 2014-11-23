@@ -9,15 +9,15 @@
 
 
 # Read in features, subjects, and activities for training and test sets and the original feature labels.
-train_features <- read.table("./train/X_train.txt")
-train_subjects <- read.table("./train/subject_train.txt")
-train_activities <- read.table("./train/y_train.txt")
+train_features <- read.table("./UCI HAR Dataset/train/X_train.txt")
+train_subjects <- read.table("./UCI HAR Dataset/train/subject_train.txt")
+train_activities <- read.table("./UCI HAR Dataset/train/y_train.txt")
 
-test_features <- read.table("./test/X_test.txt")
-test_subjects <- read.table("./test/subject_test.txt")
-test_activities <- read.table("./test/y_test.txt")
+test_features <- read.table("./UCI HAR Dataset/test/X_test.txt")
+test_subjects <- read.table("./UCI HAR Dataset/test/subject_test.txt")
+test_activities <- read.table("./UCI HAR Dataset/test/y_test.txt")
 
-original_labels <- read.table("./features.txt")
+original_labels <- read.table("./UCI HAR Dataset/features.txt")
 original_labels <- as.character(original_labels[[2]])
 
 
@@ -59,12 +59,6 @@ cleaned_labels2 <- numeric(length=length(original_labels))
 for (i in 1:length(original_labels)) {
      cleaned_labels1[i] <- gsub("\\.| |\\(|\\)", "", original_labels[i])
      cleaned_labels2[i] <- gsub("-|,","_", cleaned_labels1[i])
-     # cleaned_labels1 <- gsub("\\.", "", original_labels)
-     # cleaned_labels2 <- gsub(" ", "", cleaned_labels1)
-     # cleaned_labels3 <- gsub("\\(", "", cleaned_labels2)
-     # cleaned_labels4 <- gsub("\\)", "", cleaned_labels3)
-     # cleaned_labels5 <- gsub("-", "_", cleaned_labels4)
-     # cleaned_labels6 <- gsub(",", "_", cleaned_labels5)
 }
 
 # Just in case I missed something use make.names to force labels to behave
@@ -73,9 +67,14 @@ subset_labels <- cleaned_labels[col_index]
 
 names(subset_features) <- c("SubjectID","Activity",subset_labels)
 
-#write.table(subset_features,file="./Subsetted features to include mean and std only.txt",row.names=FALSE)
+write.table(subset_features,file="./UCI HAR Dataset/Subsetted features to include mean and std only.txt",row.names=FALSE)
 
-temp <- split(subset_features, interaction(subset_features[[1]],subset_features[[2]]))
+temp1 <- split(subset_features, interaction(subset_features[[1]],subset_features[[2]]))
 
-summary_means <- as.data.frame(t(sapply(temp,function(x) colMeans(x[,subset_labels]))))
-#write.table(summary_means, file="./Mean of subsetted features per subject per activity.txt",row.names=FALSE)
+summary_means <- as.data.frame(t(sapply(temp1,function(x) colMeans(x[,subset_labels]))))
+
+summary_rows <- data.frame(do.call(rbind,strsplit(row.names(summary_means), "\\.")))
+names(summary_rows) <- c("SubjectID","Activity")
+
+summary_frame <- cbind(summary_rows, summary_means)
+write.table(summary_frame, file="./UCI HAR Dataset/Mean of subsetted features per subject per activity.txt",row.names=FALSE)
